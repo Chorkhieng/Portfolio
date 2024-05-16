@@ -69,4 +69,4 @@ def send_email(name, email, phone, message):
         raise
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=False)
