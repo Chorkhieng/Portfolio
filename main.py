@@ -1,16 +1,16 @@
 from flask import Flask, render_template, request
 import smtplib
 import requests
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 import os
 
 # Load environment variables from .env file
-load_dotenv()
+# load_dotenv()
 
 # Fetch email and password from environment variables
-OWN_EMAIL = os.getenv("OWN_EMAIL")
-OWN_PASSWORD = os.getenv("OWN_PASSWORD")
-NPOINT = os.getenv("NPOINT")
+OWN_EMAIL = os.environ.get("OWN_EMAIL")
+OWN_PASSWORD = os.environ.get("OWN_PASSWORD")
+NPOINT = os.environ.get("NPOINT")
 
 # Fetch blog posts with error handling
 try:
