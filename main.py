@@ -24,8 +24,17 @@ except requests.exceptions.RequestException as e:
 app = Flask(__name__)
 
 @app.route('/')
+def get_recent_posts():
+    # Check if the length of posts is less than or equal to 3
+    if len(posts) <= 3:
+        recent_posts = posts  # Extract all posts
+    else:
+        recent_posts = posts[:3]  # Extract the three most recent posts
+    return render_template("index.html", all_posts=recent_posts)
+
+@app.route("/posts/all")
 def get_all_posts():
-    return render_template("index.html", all_posts=posts)
+    return render_template("all_posts.html", all_posts=posts)
 
 @app.route("/post/<int:index>")
 def show_post(index):
