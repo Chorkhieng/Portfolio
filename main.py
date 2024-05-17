@@ -29,9 +29,9 @@ pip3 install -r requirements.txt
 This will install the packages from the requirements.txt for this project.
 '''
 
-OWN_EMAIL = os.environ.get("OWN_EMAIL")
-OWN_PASSWORD = os.environ.get("OWN_PASSWORD")
-SECRET_KEY = os.environ.get("SECRET_KEY")
+# OWN_EMAIL = os.environ.get("OWN_EMAIL")
+# OWN_PASSWORD = os.environ.get("OWN_PASSWORD")
+# SECRET_KEY = os.environ.get("SECRET_KEY")
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = SECRET_KEY
@@ -58,10 +58,14 @@ gravatar = Gravatar(app,
                     use_ssl=False,
                     base_url=None)
 
+
 # CREATE DATABASE
 class Base(DeclarativeBase):
     pass
+
+
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URI", "sqlite:///posts.db")
+# app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///posts.db"
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
@@ -120,7 +124,7 @@ def admin_only(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         # If id is not 1 then return abort with 403 error
-        if current_user.id != 4:
+        if current_user.id != 1:
             return abort(403)
         # Otherwise continue with the route function
         return f(*args, **kwargs)
