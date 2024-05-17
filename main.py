@@ -186,7 +186,7 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('get_all_posts'))
+    return redirect(url_for('get_recent_posts'))
 
 
 @app.route('/')
@@ -279,7 +279,7 @@ def delete_post(post_id):
     post_to_delete = db.get_or_404(BlogPost, post_id)
     db.session.delete(post_to_delete)
     db.session.commit()
-    return redirect(url_for('get_all_posts'))
+    return redirect(url_for('get_recent_posts'))
 
 
 @app.route("/about")
