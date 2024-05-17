@@ -29,12 +29,14 @@ pip3 install -r requirements.txt
 This will install the packages from the requirements.txt for this project.
 '''
 
-# OWN_EMAIL = os.environ.get("OWN_EMAIL")
-# OWN_PASSWORD = os.environ.get("OWN_PASSWORD")
-# SECRET_KEY = os.environ.get("SECRET_KEY")
+OWN_EMAIL = os.environ.get("OWN_EMAIL")
+OWN_PASSWORD = os.environ.get("OWN_PASSWORD")
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = SECRET_KEY
+app.config['OWN_EMAIL'] = OWN_EMAIL
+app.config['OWN_PASSWORD'] = OWN_PASSWORD
 ckeditor = CKEditor(app)
 Bootstrap5(app)
 
