@@ -9,8 +9,8 @@
     <div class="row gx-4 gx-lg-5 justify-content-center">
       <div class="col-md-10 col-lg-8 col-xl-7">
         <div class="site-heading">
-          <h1>CHORK HIENG</h1>
-          <span class="subheading">Hi there! I'm Chork.</span>
+          <h1>Posted records</h1>
+          <span class="subheading">Now you can read all my posts here.</span>
         </div>
       </div>
     </div>
@@ -30,10 +30,10 @@
         <p class="post-meta">
           Posted by
           <!-- post.author.name is now a User object -->
-          <a href="#">{{post.author.name}}</a>
+          <a href="/about">{{post.author.name}}</a>
           on {{post.date}}
           <!-- Only show delete button if user id is 1 (admin user) -->
-          {% if current_user.id == 4: %}
+          {% if current_user.id == 1: %}
           <a href="{{url_for('delete_post', post_id=post.id) }}">❌</a>
           {% endif %}
         </p>
