@@ -13,4 +13,3 @@ This portfolio project is designed to demonstrate my ability to create a dynamic
 - **API Routing**: Implements RESTful API endpoints for dynamic data retrieval and manipulation.
 - **Jinja Templating**: Uses Jinja2 for rendering HTML templates with dynamic content.
 - **Responsive Design**: Ensures the application is accessible and visually appealing on various devices.
-
