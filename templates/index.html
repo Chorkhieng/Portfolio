@@ -30,11 +30,11 @@
         <p class="post-meta">
           Posted by
           <!-- post.author.name is now a User object -->
-          <a href="#">{{post.author.name}}</a>
+          <a href="/about">{{post.author.name}}</a>
           on {{post.date}}
           <!-- Only show delete button if user id is 1 (admin user) -->
           {% if current_user.id == 1: %}
-          <a href="{{url_for('delete_post', post_id=post.id) }}">❌</a>
+          <a href="{{url_for('delete_post', post_id=post.id) }}"> ❌</a>
           {% endif %}
         </p>
       </div>
@@ -49,8 +49,7 @@
         <a
           class="btn btn-primary float-right"
           href="{{url_for('add_new_post')}}"
-          >Create New Post</a
-        >
+          >Create New Post</a>
       </div>
       {% endif %}
 

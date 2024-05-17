@@ -162,7 +162,7 @@ def register():
         db.session.commit()
         # This line will authenticate the user with Flask-Login
         login_user(new_user)
-        return redirect(url_for("get_all_posts"))
+        return redirect(url_for("get_recent_posts"))
     return render_template("register.html", form=form, current_user=current_user)
 
 
@@ -184,7 +184,7 @@ def login():
             return redirect(url_for('login'))
         else:
             login_user(user)
-            return redirect(url_for('get_all_posts'))
+            return redirect(url_for('get_recent_posts'))
 
     return render_template("login.html", form=form, current_user=current_user)
 
@@ -199,6 +199,7 @@ def logout():
 def get_recent_posts():
     result = db.session.execute(db.select(BlogPost))
     posts = result.scalars().all()
+    posts.reverse()
     # Check if the length of posts is less than or equal to 3
     if len(posts) <= 3:
         recent_posts = posts  # Extract all posts
@@ -211,6 +212,7 @@ def get_recent_posts():
 def get_all_posts():
     result = db.session.execute(db.select(BlogPost))
     posts = result.scalars().all()
+    posts.reverse()
     return render_template("all_posts.html", all_posts=posts, current_user=current_user)
 
 

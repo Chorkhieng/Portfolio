@@ -12,7 +12,7 @@
           <span class="meta"
             >Posted by
             <!-- Changed from post.author -->
-            <a href="#">{{ post.author.name }}</a>
+            <a href="/about">{{ post.author.name }}</a>
             on {{ post.date }}
           </span>
         </div>
@@ -38,13 +38,15 @@
         </div>
         {% endif %}
 
-        <!-- Comments Area -->
-        <!-- Load the CKEditor -->
-        {{ ckeditor.load() }}
-        <!-- Configure it with the name of the form field from CommentForm -->
-        {{ ckeditor.config(name='comment_text') }}
-        <!-- Create the wtf quick form from CommentForm -->
-        {{ render_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+          {% if current_user.id != null %}
+          <!-- Comments Area -->
+          <!-- Load the CKEditor -->
+          {{ ckeditor.load() }}
+          <!-- Configure it with the name of the form field from CommentForm -->
+          {{ ckeditor.config(name='comment_text') }}
+          <!-- Create the wtf quick form from CommentForm -->
+          {{ render_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+        {% endif %}
         <div class="comment">
           <ul class="commentList">
             <!-- Show all comments -->
