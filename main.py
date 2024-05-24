@@ -66,8 +66,8 @@ class Base(DeclarativeBase):
     pass
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URI", "sqlite:///posts.db")
-# app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///posts.db"
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URI", "sqlite:///posts.db")
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///posts.db"
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
@@ -287,6 +287,29 @@ def delete_post(post_id):
     db.session.delete(post_to_delete)
     db.session.commit()
     return redirect(url_for('get_recent_posts'))
+
+# delete comment (only admin can delete commets
+from flask import request, redirect, url_for
+
+
+from flask import redirect, url_for
+
+@app.route("/delete_comment/<int:comment_id>")
+@admin_only
+def delete_comment(comment_id):
+    # Get the comment to delete
+    comment_to_delete = db.get_or_404(Comment, comment_id)
+
+    # Get the ID of the blog post associated with the comment
+    post_id = comment_to_delete.post_id
+
+    # Delete the comment
+    db.session.delete(comment_to_delete)
+    db.session.commit()
+
+    # Redirect back to the same blog post
+    return redirect(url_for('show_post', post_id=post_id))
+
 
 
 @app.route("/about")
