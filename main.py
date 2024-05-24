@@ -66,8 +66,8 @@ class Base(DeclarativeBase):
     pass
 
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URI", "sqlite:///posts.db")
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///posts.db"
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URI", "sqlite:///posts.db")
+# app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///posts.db"
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
@@ -279,6 +279,22 @@ def edit_post(post_id):
     return render_template("make-post.html", form=edit_form, is_edit=True, current_user=current_user)
 
 
+# edit comments
+@app.route("/edit-comment/<int:post_id>/<int:comment_id>", methods=["GET", "POST"])
+def edit_comment(post_id, comment_id):
+    comment = db.get_or_404(Comment, comment_id)
+    # Populate form with existing comment data
+    edit_form = CommentForm(obj=comment.text)
+
+    if edit_form.validate_on_submit():
+        if post_id == comment.post_id:
+            # Update the comment text with the data from the form
+            comment.text = edit_form.comment_text.data
+            db.session.commit()
+        return redirect(url_for("show_post", post_id=post_id))
+
+    return render_template("edit-comment.html", form=edit_form, is_edit=True, current_user=current_user)
+
 # Use a decorator so only an admin user can delete a post
 @app.route("/delete/<int:post_id>")
 @admin_only
@@ -288,24 +304,19 @@ def delete_post(post_id):
     db.session.commit()
     return redirect(url_for('get_recent_posts'))
 
-# delete comment (only admin can delete commets
-from flask import request, redirect, url_for
 
-
-from flask import redirect, url_for
-
-@app.route("/delete_comment/<int:comment_id>")
+# delete comment (only admin can delete comments
+@app.route("/delete_comment/<int:post_id>/<int:comment_id>")
 @admin_only
-def delete_comment(comment_id):
+def delete_comment(post_id, comment_id):
     # Get the comment to delete
     comment_to_delete = db.get_or_404(Comment, comment_id)
 
     # Get the ID of the blog post associated with the comment
-    post_id = comment_to_delete.post_id
-
-    # Delete the comment
-    db.session.delete(comment_to_delete)
-    db.session.commit()
+    if post_id == comment_to_delete.post_id:
+        # Delete the comment
+        db.session.delete(comment_to_delete)
+        db.session.commit()
 
     # Redirect back to the same blog post
     return redirect(url_for('show_post', post_id=post_id))
