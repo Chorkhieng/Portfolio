@@ -197,9 +197,8 @@ def logout():
 
 @app.route('/')
 def get_recent_posts():
-    result = db.session.execute(db.select(BlogPost))
+    result = db.session.execute(db.select(BlogPost).order_by(BlogPost.date.desc()))
     posts = result.scalars().all()
-    posts.reverse()
     # Check if the length of posts is less than or equal to 3
     if len(posts) <= 3:
         recent_posts = posts  # Extract all posts
@@ -210,7 +209,7 @@ def get_recent_posts():
 
 @app.route('/posts/all')
 def get_all_posts():
-    result = db.session.execute(db.select(BlogPost))
+    result = db.session.execute(db.select(BlogPost).order_by(BlogPost.date.desc()))
     posts = result.scalars().all()
     posts.reverse()
     return render_template("all_posts.html", all_posts=posts, current_user=current_user)
