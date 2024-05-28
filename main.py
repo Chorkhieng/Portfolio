@@ -66,8 +66,8 @@ class Base(DeclarativeBase):
     pass
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URI", "sqlite:///posts.db")
-# app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///posts.db"
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URI", "sqlite:///posts.db")
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///posts.db"
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
@@ -307,7 +307,7 @@ def delete_post(post_id):
 
 # delete comment (only admin can delete comments
 @app.route("/delete_comment/<int:post_id>/<int:comment_id>")
-@admin_only
+# @admin_only
 def delete_comment(post_id, comment_id):
     # Get the comment to delete
     comment_to_delete = db.get_or_404(Comment, comment_id)
